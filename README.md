@@ -7,9 +7,13 @@ This project simulates a hospital management system using Java.
 
 
 Main classes include:
+- Hospital
 - Person 
 - Patient
--tbc...
+- Doctor
+- Bill
+- Room
+- Appointment
 
 These classes interact with each other to simulate hospital operations.
 
@@ -25,7 +29,7 @@ https://github.com/seynl77/Hospital-CS151-Sp26
 ## Contributions
 Elaine
 - Patient class
-- 
+- Appointment class
 - Initial repository setup
 
 Andrew
@@ -33,6 +37,7 @@ Andrew
 
 Derek
 - Person class
+- Hospital class
 
 Serife Aynur Kocdas
 - Bill class
