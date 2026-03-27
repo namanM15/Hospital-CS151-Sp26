@@ -11,6 +11,11 @@ public class Doctor extends Person {
         this.vacation = vacation;
     }
 
+    @Override
+    public void displayRole() {
+        System.out.println("Doctor: " + getName());
+    }
+
     public void setSalary(double salary) {
         this.salary = salary;
     }

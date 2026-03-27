@@ -2,6 +2,17 @@ public class Patient extends Person {
     private String medicalHistory;
     private boolean admitted;
 
+    public Patient(String name, int id, int age, String gender, int phoneNumber, String medicalHistory) {
+        super(name, id, age, gender, phoneNumber);
+        this.medicalHistory = medicalHistory;
+        this.admitted = false;
+    }
+
+    @Override
+    public void displayRole() {
+        System.out.println("Patient: " + getName());
+    }
+
     public void admitPatient() {
         admitted = true;
         System.out.println(getName() + " has been admitted.");
