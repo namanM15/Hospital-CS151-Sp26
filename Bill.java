@@ -1,4 +1,4 @@
-public class Bill {
+public class Bill implements Billable {
     private static int billCount = 0;
     public static final int MAX_BILLS = 100;
 
