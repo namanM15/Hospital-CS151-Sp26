@@ -1,6 +1,7 @@
 package src.main;
 import java.util.Scanner;
 
+import src.model.Bill;
 import src.model.Hospital;
 import src.model.Patient;
 import src.model.Room;
@@ -10,10 +11,12 @@ public class Main {
     private static Hospital hospital;
     private static Patient currentPatient;
     private static Room currentRoom;
+    private static Bill currentBill;
     public static void main(String[] args) {
         hospital = new Hospital("San Jose Hospital");
         currentPatient = null;
         currentRoom = null;
+        currentBill = null;
 
         while (true) {
             System.out.print("Hospital Main Menu\n" +
@@ -93,7 +96,7 @@ public class Main {
                 String patientGender = getInput();
 
                 System.out.print("Enter patient phone number: ");
-                int patientPhone = Integer.parseInt(getInput());
+                String patientPhone = getInput();
 
                 System.out.print("Enter medical history: ");
                 String medicalHistory = getInput();
@@ -197,8 +200,107 @@ public class Main {
     }
 
     private static void menuBillings() {
+    System.out.print("Billing Management\n" +
+                    "==================\n" +
+                    "1. Create Bill\n" +
+                    "2. Add Charge\n" +
+                    "3. Apply Discount\n" +
+                    "4. Pay Bill\n" +
+                    "5. Mark Bill Overdue\n" +
+                    "6. View Bill\n" +
+                    "7. Return to Main Menu\n" +
+                    "Choose an option: ");
 
+    String input = sc.nextLine();
+
+    switch (input) {
+        case "1":
+            try {
+                System.out.print("Enter bill ID: ");
+                int billId = Integer.parseInt(sc.nextLine());
+
+                System.out.print("Enter bill amount: ");
+                double amount = Double.parseDouble(sc.nextLine());
+
+                currentBill = new Bill(billId, amount);
+                System.out.println("Bill created successfully.");
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number input. Please try again.");
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+            break;
+
+        case "2":
+            if (currentBill == null) {
+                System.out.println("No bill exists yet. Please create a bill first.");
+            } else {
+                try {
+                    System.out.print("Enter extra charge amount: ");
+                    double extra = Double.parseDouble(sc.nextLine());
+                    currentBill.addCharge(extra);
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid number input. Please try again.");
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+            break;
+
+        case "3":
+            if (currentBill == null) {
+                System.out.println("No bill exists yet. Please create a bill first.");
+            } else {
+                try {
+                    System.out.print("Enter discount percentage: ");
+                    double percent = Double.parseDouble(sc.nextLine());
+                    currentBill.applyDiscount(percent);
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid number input. Please try again.");
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+            break;
+
+        case "4":
+            if (currentBill == null) {
+                System.out.println("No bill exists yet. Please create a bill first.");
+            } else {
+                try {
+                    currentBill.payBill();
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+            break;
+
+        case "5":
+            if (currentBill == null) {
+                System.out.println("No bill exists yet. Please create a bill first.");
+            } else {
+                currentBill.markAsOverdue();
+            }
+            break;
+
+        case "6":
+            if (currentBill == null) {
+                System.out.println("No bill exists yet.");
+            } else {
+                currentBill.displayBill();
+            }
+            break;
+
+        case "7":
+            System.out.println("Returning to main menu");
+            return;
+
+        default:
+            System.out.println("Invalid option.");
     }
+}
+
+    
 
     private static void viewHospitalInfo() {
         System.out.println("\nDisplaying hospital info");
