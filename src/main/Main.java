@@ -389,17 +389,17 @@ public class Main {
                 }
                 break;
 
-                case "6":
-                    hospital.displayAllRooms();
-                    break;
+            case "6":
+                hospital.displayAllRooms();
+                break;
 
-                case "7":
-                    System.out.println("Returning to main menu");
-                    return;
+            case "7":
+                System.out.println("Returning to main menu");
+                return;
 
-                default:
-                    System.out.println("Invalid input");
-                    break;
+            default:
+                System.out.println("Invalid input");
+                break;
         }
     }
 
