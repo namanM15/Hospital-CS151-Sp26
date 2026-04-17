@@ -1,5 +1,7 @@
 package src.model;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import src.exceptions.MaxCapacityException;
@@ -43,8 +45,73 @@ public class Hospital {
         if (appointments.size() >= MAX_INSTANCES) {
             throw new MaxCapacityException("appointment");
         }
+        if (appointment.getPatient() == null || appointment.getDoctor() == null) {
+            System.out.println("Appointment must have both a patient and a doctor.");
+            return;
+        }
+        if (hasConflict(appointment)) {
+            System.out.println("Appointment conflicts with schedule.");
+            return;
+        }
         appointments.add(appointment);
         System.out.println("Appointment added.");
+    }
+
+    public Appointment findAppointmentById(int appointmentId) {
+        for (Appointment apt : appointments) {
+            if (apt.getAppointmentId() == appointmentId) {
+                return apt;
+            }
+        }
+        return null;
+    }
+
+    public boolean hasConflict(Appointment newApt) {
+        for (Appointment apt : appointments) {
+            if (apt.conflictsWith(newApt)) {
+                return true;
+            }
+            if (apt.getAppointmentId() == newApt.getAppointmentId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void rescheduleAppointment(int appointmentId, LocalDate newDate, LocalTime newTime) {
+    Appointment apt = findAppointmentById(appointmentId);
+
+    if (apt == null) {
+        System.out.println("Appointment not found.");
+        return;
+    }
+
+    if (apt.getStatus().equals("Completed")) {
+        System.out.println("Cannot reschedule completed appointment.");
+        return;
+    }
+    Appointment temp = new Appointment(
+        apt.getAppointmentId(),
+        apt.getPatient(),
+        apt.getDoctor(),
+        newDate,
+        newTime
+    );
+    appointments.remove(apt);
+
+    if (hasConflict(temp)) {
+        appointments.add(apt);
+        System.out.println("Reschedule causes conflict.");
+        return;
+    }
+    try {
+        temp.reschedule(newDate, newTime);
+    }
+    catch (Exception e) {
+        appointments.add(apt);
+        System.out.println("Error rescheduling: " + e.getMessage());
+        return;
+        }
     }
 
     public void addBill(Bill bill) throws MaxCapacityException {
